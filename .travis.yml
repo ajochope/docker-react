@@ -7,4 +7,5 @@ before_install:
 
 script:
   - docker run ajochope/docker-react npm run test -- --coverage
+
   
