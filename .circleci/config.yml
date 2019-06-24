@@ -1,0 +1,12 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    steps:
+      - add_ssh_keys:
+        fingerprints:
+          - "19:af:41:7c:63:b6:22:d8:74:ee:eb:71:bd:ef:9a:cf"
+      - checkout
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: docker build -t ajochope/docker-react:$CIRCLE_SHA1 .
+      - run: docker push ajochope/docker-react:$CIRCLE_SHA1
