@@ -2,6 +2,11 @@ version: 2
 jobs:
   build:
     machine: true
+
+    filters:
+      branches:
+        only: master
+
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -11,4 +16,5 @@ jobs:
       - run: docker build -t ajochope/docker-react:$CIRCLE_SHA1 .
       - run: docker push ajochope/docker-react:$CIRCLE_SHA1
       - run: ssh -v -o StrictHostKeyChecking=no root@ajochope.tk "/bin/bash /root/docker/deploy.sh $CIRCLE_SHA1"
-      
+
+          
