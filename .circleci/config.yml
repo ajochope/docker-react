@@ -10,4 +10,5 @@ jobs:
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker build -t ajochope/docker-react:$CIRCLE_SHA1 .
       - run: docker push ajochope/docker-react:$CIRCLE_SHA1
+      - run: ssh -v -o StrictHostKeyChecking=no root@ajochope.tk "/bin/bash /root/docker/deploy.sh $CIRCLE_SHA1"
       
