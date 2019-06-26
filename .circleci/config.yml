@@ -15,28 +15,28 @@ jobs:
         - image: circleci/buildpack-deps:stretch
           environment:
             IMAGE_NAME: ajochope/docker-react
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "19:af:41:7c:63:b6:22:d8:74:ee:eb:71:bd:ef:9a:cf"
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Docker login
-          command: |
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run:
-          name: Build Docker image
-          command: |
-            docker build -t $IMAGE_NAME:$CIRCLE_SHA1 .
-      - run:
-          name: Push Docker image
-          command: |
-            docker push $IMAGE_NAME:$CIRCLE_SHA1
-      - run:
-          name: Run Test and Coverage
-          command: |
-            docker run -e CI=true $IMAGE_NAME:$CIRCLE_SHA1 npm run test -- --coverage
+      steps:
+        - add_ssh_keys:
+            fingerprints:
+              - "19:af:41:7c:63:b6:22:d8:74:ee:eb:71:bd:ef:9a:cf"
+        - checkout
+        - setup_remote_docker
+        - run:
+            name: Docker login
+            command: |
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+        - run:
+            name: Build Docker image
+            command: |
+              docker build -t $IMAGE_NAME:$CIRCLE_SHA1 .
+        - run:
+            name: Push Docker image
+            command: |
+              docker push $IMAGE_NAME:$CIRCLE_SHA1
+        - run:
+            name: Run Test and Coverage
+            command: |
+              docker run -e CI=true $IMAGE_NAME:$CIRCLE_SHA1 npm run test -- --coverage
   deploy:
     steps:
       - run:
