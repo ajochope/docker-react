@@ -4,7 +4,7 @@ defaults: &defaults
   docker:
     - image: circleci/buildpack-deps:stretch
       environment:
-		IMAGE_NAME: ajochope/docker-react
+		    IMAGE_NAME: ajochope/docker-react
 jobs:
   build:
     <<: *defaults
