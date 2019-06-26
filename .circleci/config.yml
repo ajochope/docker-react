@@ -54,8 +54,14 @@ workflows:
             branches:
               only: master
       - frontend-tests:
+          filters:
+            branches:
+              only: master
           requires:
              - build
       - upload-coverage:
+          filters:
+            branches:
+              only: master
           requires:
              - frontend-tests
