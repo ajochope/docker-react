@@ -8,7 +8,9 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Wellcome to the jungle baby!!!
+        Exit, light
+        Enter, night
+        Take my hand
         </p>
         <a
           className="App-link"
@@ -16,7 +18,8 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          We got funny games..
+          We're off to never-never land
+          
         </a>
       </header>
     </div>
