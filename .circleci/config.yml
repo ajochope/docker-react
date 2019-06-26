@@ -24,16 +24,33 @@ jobs:
           name: Push Docker image
           command: | 
             docker push $IMAGE_NAME:$CIRCLE_SHA1
+
+  frontend-tests:
+    steps:
+      - run:
+          name: Run Test and Coverage
+          command: |
+            docker run -e CI=true $IMAGE_NAME:$CIRCLE_SHA1 npm run test -- --coverage
+  
+  upload-coverage:
+    steps:
       - run:
           name: Script inside Droplet
           command: |
             ssh -v -o StrictHostKeyChecking=no root@ajochope.tk "/bin/bash /root/docker/deploy.sh $CIRCLE_SHA1"
+
 workflows:
   version: 2
-  build-master:
+
+  commit:
     jobs:
       - build:
           filters:
             branches:
               only: master
-              
+      - frontend-tests: 
+          requires: 
+             - build
+      - upload-coverage:
+          requires:
+             - frontend-tests
