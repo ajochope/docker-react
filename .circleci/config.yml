@@ -1,16 +1,7 @@
-version: 2.1
-workflows:
-  build_deploy:
-    jobs:
-      - build_test:
-          filters:
-            branches:
-              only: master
-      - deploy:
-          requires:
-            - build_test
+version: 2
 jobs:
-  build_test:
+  build:
+    working_directory: ~/app
     docker:
       - image: circleci/buildpack-deps:stretch
         environment:
@@ -37,10 +28,23 @@ jobs:
 #          name: Run Test and Coverage
 #          command: |
 #            docker run -e CI=true $IMAGE_NAME:$CIRCLE_SHA1 npm run test -- --coverage
-  deploy:
+  test:
     machine: true
+    working_directory: ~/app
     steps:
       - run:
           name: Script inside Droplet
           command: |
             ssh -v -o StrictHostKeyChecking=no root@ajochope.tk "/bin/bash /root/docker/deploy.sh $CIRCLE_SHA1"
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
+      - test:
+          requires:
+            - build
