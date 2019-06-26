@@ -2,16 +2,15 @@ version: 2.1
 workflows:
   build_deploy:
     jobs:
-      - build:
+      - build_test:
           filters:
             branches:
               only: master
       - deploy:
           requires:
-            - build
+            - build_test
 jobs:
-  build:
-    working_directory: ~/app
+  build_test:
       docker:
         - image: circleci/buildpack-deps:stretch
           environment:
