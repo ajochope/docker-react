@@ -29,6 +29,8 @@ jobs:
   frontend-tests:
     <<: *defaults
     steps:
+      - attach_workspace:
+          at: ~/app
       - run:
           name: Run Test and Coverage
           command: |
@@ -36,6 +38,8 @@ jobs:
   upload-coverage:
     <<: *defaults
     steps:
+      - attach_workspace:
+          at: ~/app
       - run:
           name: Script inside Droplet
           command: |
