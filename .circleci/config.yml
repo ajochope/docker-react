@@ -1,11 +1,13 @@
-version: 2.1
+version: 2.0
+defaults: &defaults
+  working_directory: ~/app
+  docker:
+    - image: circleci/buildpack-deps:stretch
+      environment:
+		IMAGE_NAME: ajochope/docker-react
 jobs:
   build:
-    docker:
-      - image: circleci/buildpack-deps:stretch
-    environment:
-      IMAGE_NAME: ajochope/docker-react
-    working_directory: ~/app
+    <<: *defaults
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -24,21 +26,20 @@ jobs:
           name: Push Docker image
           command: | 
             docker push $IMAGE_NAME:$CIRCLE_SHA1
-
   frontend-tests:
+    <<: *defaults
     steps:
       - run:
           name: Run Test and Coverage
           command: |
             docker run -e CI=true $IMAGE_NAME:$CIRCLE_SHA1 npm run test -- --coverage
-  
   upload-coverage:
+    <<: *defaults
     steps:
       - run:
           name: Script inside Droplet
           command: |
             ssh -v -o StrictHostKeyChecking=no root@ajochope.tk "/bin/bash /root/docker/deploy.sh $CIRCLE_SHA1"
-
 workflows:
   version: 2
 
@@ -48,8 +49,8 @@ workflows:
           filters:
             branches:
               only: master
-      - frontend-tests: 
-          requires: 
+      - frontend-tests:
+          requires:
              - build
       - upload-coverage:
           requires:
