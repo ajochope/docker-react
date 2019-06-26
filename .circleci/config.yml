@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Run Test and Coverage
           command: |
-            docker run -e CI=true $IMAGE_NAME:$CIRCLE_SHA1 npm run test -- --coverage
+            docker run $IMAGE_NAME:$CIRCLE_SHA1 npm run test -- --coverage
   test:
     machine: true
     working_directory: ~/app
@@ -48,4 +48,3 @@ workflows:
       - test:
           requires:
             - build
-            
