@@ -8,8 +8,8 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-        Cars are crashin' every night
-        I drink n' drive everything's in sight  
+        Take me down to the paradise city
+Where the grass is green and the girls are pretty
         </p>
         <a
           className="App-link"
@@ -17,8 +17,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          It's so easy, easy
-          When everybody's tryin' to please me
+          oh won't you please take me home
           
         </a>
       </header>
