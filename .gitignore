@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# travis-ci ignore files
+api_key.py
+client-secret.json.enc
+credentials.tar.gz
+credentials.tar.gz.enc
