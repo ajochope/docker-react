@@ -1,9 +1,18 @@
 sudo: required
 services:
-  - docker
-
+- docker
 before_install:
-  - docker build -t ajochope/docker-react -f Dockerfile.dev .
-
+- openssl aes-256-cbc -K $encrypted_a37ce85f771b_key -iv $encrypted_a37ce85f771b_iv
+  -in client-secret.json.enc -out client-secret.json -d
+- docker build -t ajochope/docker-react -f Dockerfile.dev .
 script:
-  - docker run -e CI=true ajochope/docker-react npm run test -- --coverage
+- docker run -e CI=true ajochope/docker-react npm run test -- --coverage
+deploy:
+  provider: gae
+  keyfile: /home/ajochope/Developer/0GoogleCloudSecret/client-secret.json
+  project: docker-react-250507
+  on:
+    branch: master
+  access_key_id: $encrypted_a37ce85f771b_iv
+  secret_access_key:
+    secure: $encrypted_a37ce85f771b_key
